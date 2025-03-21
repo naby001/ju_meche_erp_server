@@ -24,9 +24,16 @@ export const signup = async (req, res) => {
 
         // Create a new user
         const newUser = new User({
-            name: fullName,
+            fullName: fullName,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            personalInfo:{},
+            enrollmentDetails:{},
+           academicBackground:{},
+          academicInfo:{},
+         curricularInfo:{},
+            careerProgression:{},
+            miscellaneous:{}
         });
 
         // Save user to database
@@ -40,6 +47,7 @@ export const signup = async (req, res) => {
         res.status(201).json({token, user:user});
 
     } catch (error) {
+        console.log(error);
         res.status(500).json({ success: false, message: "Error signing up", error: error.message });
     }
 };
@@ -88,7 +96,7 @@ export const updateUser = async (req, res) => {
         } = req.body;
 
         let user=await User.findOne({email});
-
+        console.log(user);
         user.personalInfo=personalInfo;
         user.enrollmentDetails=enrollmentDetails;
         user.academicBackground=academicBackground;
@@ -112,6 +120,7 @@ export const updateUser = async (req, res) => {
         
         res.status(201).json({  user: newUser });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: 'Failed to add user', details: error.message });
     }
 };
